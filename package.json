@@ -1,0 +1,24 @@
+{
+  "name": "denden-luxury-yachts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Denden Luxury Yachts — brand & website design proposal",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:site": "node scripts/check-site.mjs"
+  },
+  "engines": {
+    "node": ">=18.20"
+  },
+  "dependencies": {
+    "@fontsource-variable/hanken-grotesk": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}
