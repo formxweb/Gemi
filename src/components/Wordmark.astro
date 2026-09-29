@@ -1,0 +1,38 @@
+---
+// Typographic wordmark. Replace the inner markup with Denden's official logo SVG when supplied.
+interface Props { size?: 'nav' | 'large'; class?: string }
+const { size = 'nav', class: cls } = Astro.props;
+---
+<span class:list={['wm', `wm--${size}`, cls]} aria-label="Denden Luxury Yachts">
+  <span class="wm__name" aria-hidden="true">DENDEN</span>
+  <span class="wm__sub" aria-hidden="true">Luxury Yachts</span>
+</span>
+
+<style>
+  .wm { display: inline-flex; flex-direction: column; align-items: flex-start; line-height: 1; }
+  .wm__name {
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: 0.34em;
+    margin-right: -0.34em;
+    font-variation-settings: 'opsz' 36;
+  }
+  .wm__sub {
+    font-family: var(--sans);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.42em;
+    opacity: 0.7;
+  }
+  .wm--nav .wm__name { font-size: 19px; }
+  .wm--nav .wm__sub { font-size: 7.5px; margin-top: 6px; letter-spacing: 0.5em; }
+  .wm--large { align-items: flex-start; }
+  .wm--large .wm__name {
+    font-size: clamp(54px, 12.4vw, 196px);
+    font-weight: 300;
+    letter-spacing: 0.16em;
+    margin-right: -0.16em;
+    font-variation-settings: 'opsz' 72;
+  }
+  .wm--large .wm__sub { font-size: clamp(9px, 0.9vw, 13px); margin-top: clamp(12px, 1.6vw, 24px); padding-left: 0.3em; }
+</style>

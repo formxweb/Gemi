@@ -1,0 +1,634 @@
+---
+import Img from './Img.astro';
+import Wordmark from './Wordmark.astro';
+import { fleet } from '../data/fleet.js';
+import { paths, wa, contact } from '../data/site.js';
+
+import heroImg from '../assets/img/hero-night.jpg';
+import underBridge from '../assets/img/under-bridge.jpg';
+import aftdeck from '../assets/img/di-aftdeck.jpg';
+import helm from '../assets/img/di-helm.jpg';
+import sunsetYacht from '../assets/img/sunset-yacht.jpg';
+import yali from '../assets/img/yali.jpg';
+import bridgeDusk from '../assets/img/bridge-dusk.jpg';
+import nightYacht from '../assets/img/night-yacht.jpg';
+import glass from '../assets/img/glass-dusk.jpg';
+import dining from '../assets/img/dining.jpg';
+import celebration from '../assets/img/di-celebration.jpg';
+import fortress from '../assets/img/di-fortress.jpg';
+
+interface Props { lang: 'en' | 'tr' }
+const { lang } = Astro.props;
+const p = paths[lang];
+const L = (en: string, tr: string) => (lang === 'en' ? en : tr);
+
+const [flagship, d5, d7, d9] = fleet;
+const unit = {
+  guests: L('guests', 'misafir'),
+  cabins: L('cabins', 'kabin'),
+  cabin: L('master cabin', 'ana kabin'),
+};
+
+const occasions = [
+  {
+    t: L('Private Events', 'Özel Davetler'),
+    d: L('Engagements, anniversaries and receptions. The yacht, the route and the table are arranged around your guest list.',
+         'Nişanlar, yıl dönümleri ve davetler. Yat, rota ve sofra misafir listenize göre kurulur.'),
+  },
+  {
+    t: L('Corporate Hosting', 'Kurumsal Ağırlama'),
+    d: L('Client dinners, meetings on board and incentive groups — arranged for companies, hotels and agencies.',
+         'Müşteri yemekleri, teknede toplantılar ve teşvik grupları; şirketler, oteller ve acenteler için.'),
+  },
+  {
+    t: L('Celebrations', 'Kutlamalar'),
+    d: L('Proposals, birthdays, graduations. Flowers, music and timing handled quietly, so the moment stays yours.',
+         'Evlilik teklifleri, doğum günleri, mezuniyetler. Çiçek, müzik ve zamanlama sessizce halledilir; an size kalır.'),
+  },
+  {
+    t: L('Private Dining', 'Özel Yemek'),
+    d: L('Breakfast on the water, dinner beneath the bridges, iftar at sunset — catered on board, or arranged as you prefer.',
+         'Denizde kahvaltı, köprülerin altında akşam yemeği, gün batımında iftar; teknede ikram ya da tercih ettiğiniz şekilde.'),
+  },
+  {
+    t: L('Custom Charter', 'Size Özel Rota'),
+    d: L('By the hour or the full day, along the strait or out to the Princes’ Islands. Give us the day; we shape the route.',
+         'Saatlik ya da tam gün; Boğaz boyunca veya Adalar’a. Siz günü söyleyin, rotayı biz kuralım.'),
+  },
+];
+
+const steps = [
+  { n: 'I', t: L('The brief', 'Talep'), d: L('Date, number of guests, the occasion. A short message is enough to begin.', 'Tarih, misafir sayısı, vesile. Başlamak için kısa bir mesaj yeterli.') },
+  { n: 'II', t: L('The proposal', 'Öneri'), d: L('The right yacht for your numbers, a route for the hour, and a clear quote.', 'Sayınıza uygun yat, saate göre bir rota ve net bir fiyat.') },
+  { n: 'III', t: L('The arrangements', 'Hazırlık'), d: L('Menu, flowers, music and décor coordinated through a single contact.', 'Menü, çiçek, müzik ve dekor tek bir muhatap üzerinden koordine edilir.') },
+  { n: 'IV', t: L('On board', 'Teknede'), d: L('Your crew meets you at the quay. Everything else is already in place.', 'Mürettebatınız sizi iskelede karşılar. Geri kalan her şey hazırdır.') },
+];
+
+const evening = [
+  { img: sunsetYacht, time: '19:10', c: L('Leaving the quay as the light turns copper.', 'Işık bakıra dönerken iskeleden ayrılış.'), pos: '50% 60%' },
+  { img: yali, time: '19:40', c: L('The yalı shore — best seen from the water.', 'Yalılar; en iyi denizden görünür.'), pos: '50% 50%' },
+  { img: bridgeDusk, time: '20:30', c: L('The bridge lights come on.', 'Köprünün ışıkları yanar.'), pos: '66% 50%' },
+  { img: glass, time: '21:15', c: L('Engines off, somewhere quiet.', 'Motorlar susar, sakin bir koyda.'), pos: '50% 50%' },
+  { img: nightYacht, time: '22:30', c: L('Home along the Asian shore.', 'Anadolu yakası boyunca dönüş.'), pos: '50% 70%' },
+];
+
+const guestsOpts = ['2–12', '13–20', '21–40', '41–60'];
+---
+
+<!-- 1 · Atmosphere -->
+<section class="hero dark" data-nav="dark">
+  <div class="hero__img">
+    <div class="frame"><Img src={heroImg} alt={L('A motor yacht on the Bosphorus at night, the bridge lit red behind it', 'Gece Boğaz’da bir motoryat; arkada kırmızı ışıklı köprü')} eager sizes="(max-width: 800px) 100vw, 72vw" position="50% 74%" /></div>
+  </div>
+  <div class="hero__copy">
+    <p class="eyebrow">{L('Istanbul — Since 2005', 'İstanbul — 2005’ten beri')}</p>
+    <p class="hero__line serif">{L('Private motor yachts on the Bosphorus.', 'Boğaz’da özel motoryatlar.')}</p>
+  </div>
+  <div class="hero__base">
+    <h1 class="hero__mark"><Wordmark size="large" /></h1>
+    <div class="hero__meta">
+      <span class="caption"><span>{L('The Bosphorus, after dark', 'Boğaz, gece')}</span><span class="num">41°04′ N · 29°03′ E</span></span>
+      <a href={p.charter} class="link">{L('Private Charter', 'Özel Kiralama')}<span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · The house -->
+<section class="statement wrap" data-nav="light">
+  <div class="grid">
+    <p class="eyebrow statement__label"><span class="n">01</span>{L('The House', 'Ev Sahibi')}</p>
+    <p class="lede statement__text">
+      {L(
+        'Istanbul is best understood from the water. Since 2005, Denden has hosted the city from the Bosphorus — on private motor yachts, with crews who know its currents, its quays and its quieter hours.',
+        'İstanbul’u en iyi denizden anlarsınız. Denden, 2005’ten bu yana şehri Boğaz’dan ağırlıyor; özel motoryatlarda, akıntısını, iskelelerini ve sakin saatlerini bilen mürettebatla.'
+      )}
+    </p>
+    <p class="small statement__aside">
+      {L(
+        'DenDen Denizcilik A.Ş., Beşiktaş. Private charters for individual guests, and for the hotels, agencies and event houses of Istanbul.',
+        'DenDen Denizcilik A.Ş., Beşiktaş. Bireysel misafirler ile İstanbul’un otelleri, acenteleri ve organizasyon firmaları için özel kiralama.'
+      )}
+    </p>
+  </div>
+</section>
+
+<!-- 3 · Editorial image -->
+<section class="editorial" data-expand data-nav="light">
+  <div class="frame editorial__frame">
+    <Img src={underBridge} alt={L('A motor yacht passing beneath the Bosphorus Bridge', 'Boğaz Köprüsü’nün altından geçen bir motoryat')} sizes="100vw" position="50% 62%" />
+  </div>
+  <div class="wrap editorial__cap caption">
+    <span>{L('The strait, late afternoon.', 'Boğaz, ikindi vakti.')}</span>
+    <span class="num">32 km · {L('Black Sea to Marmara', 'Karadeniz’den Marmara’ya')}</span>
+  </div>
+</section>
+
+<!-- 4 · The collection -->
+<section class="fleet wrap" id="yachts" data-nav="light">
+  <header class="grid fleet__head">
+    <p class="eyebrow"><span class="n">02</span>{L('The Fleet', 'Filo')}</p>
+    <h2 class="display fleet__title">{L('From a table for twelve to a reception for sixty.', 'On iki kişilik bir sofradan altmış kişilik bir davete.')}</h2>
+  </header>
+
+  <article class="flag grid">
+    <a href={p.yacht(flagship.slug)} class="flag__main frame zoom" aria-label={flagship.name}>
+      <Img src={flagship.image} alt={L('DenDen İstanbul under way on the Bosphorus', 'DenDen İstanbul Boğaz’da seyirde')} sizes="(max-width: 800px) 100vw, 66vw" position="50% 55%" />
+    </a>
+    <div class="flag__side">
+      <div class="frame flag__inset"><Img src={aftdeck} alt={L('The aft deck of DenDen İstanbul', 'DenDen İstanbul’un kıç güvertesi')} sizes="(max-width: 800px) 50vw, 22vw" position="42% 50%" /></div>
+      <div class="flag__text">
+        <p class="eyebrow"><span class="n">01</span>{L('Flagship', 'Amiral gemisi')}</p>
+        <h3 class="display flag__name">{flagship.name}</h3>
+        <p class="specline num">{flagship.specs.length} m<i></i>{flagship.specs.guests} {unit.guests}<i></i>{flagship.specs.built}</p>
+        <p class="flag__sum">{flagship.summary[lang]}</p>
+        <a href={p.yacht(flagship.slug)} class="link">{L('Discover the yacht', 'Yatı keşfedin')}<span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </article>
+
+  <div class="pair grid">
+    {[d5, d7].map((y, i) => (
+      <article class={`pair__item pair__item--${i}`}>
+        <a href={`${p.charter}?yacht=${y.slug}`} class="frame zoom pair__img" aria-label={y.name}>
+          <Img src={y.image} alt={`${y.name} ${L('on the Bosphorus', 'Boğaz’da')}`} sizes="(max-width: 800px) 100vw, 40vw" />
+        </a>
+        <div class="pair__text">
+          <div class="pair__title">
+            <span class="eyebrow"><span class="n">0{i + 2}</span></span>
+            <h3 class="display pair__name">{y.name}</h3>
+          </div>
+          <p class="specline num">{y.specs.length} m<i></i>{y.specs.guests} {unit.guests}<i></i>{y.specs.cabins} {unit.cabins}</p>
+          <p class="pair__sum">{y.summary[lang]}</p>
+          <a href={`${p.charter}?yacht=${y.slug}`} class="link">{L('Enquire', 'Bilgi alın')}<span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <a href={`${p.charter}?yacht=${d9.slug}`} class="index-row">
+    <span class="eyebrow"><span class="n">04</span></span>
+    <span class="index-row__name serif">{d9.name}</span>
+    <span class="num">{d9.specs.length} m</span>
+    <span class="num">{d9.specs.guests} {unit.guests}</span>
+    <span class="index-row__cta">{L('Details on request', 'Detaylar için yazın')} →</span>
+  </a>
+  <p class="small fleet__note">{L('Further yachts in the Denden fleet are available on request.', 'Denden filosundaki diğer yatlar için bizimle iletişime geçin.')}</p>
+</section>
+
+<!-- 5 · In figures -->
+<section class="figures" data-nav="light">
+  <div class="wrap">
+    <header class="figures__head">
+      <p class="eyebrow"><span class="n">03</span>{L('In figures', 'Rakamlarla')}</p>
+      <h2 class="display figures__title">DenDen İstanbul</h2>
+    </header>
+    <dl class="figures__row">
+      <div><dt class="eyebrow">{L('Length', 'Boy')}</dt><dd class="num">{flagship.specs.length}<small>m</small></dd></div>
+      <div><dt class="eyebrow">{L('Guests', 'Misafir')}</dt><dd class="num">{flagship.specs.guests}</dd></div>
+      <div><dt class="eyebrow">{L('Engines', 'Motor')}</dt><dd class="num">2<small>× 1,000 hp</small></dd></div>
+      <div><dt class="eyebrow">{L('In service', 'Hizmette')}</dt><dd class="num">{flagship.specs.built}</dd></div>
+    </dl>
+  </div>
+  <div class="figures__img wrap">
+    <div class="frame"><Img src={helm} alt={L('The helm station of DenDen İstanbul', 'DenDen İstanbul’un dümen istasyonu')} sizes="100vw" position="50% 40%" /></div>
+    <div class="caption figures__cap">
+      <span>{L('The helm, DenDen İstanbul.', 'Dümen, DenDen İstanbul.')}</span>
+      <a href={p.yacht(flagship.slug) + '#specification'} class="link">{L('Full specification', 'Tüm özellikler')}<span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · The Bosphorus -->
+<section class="bos dark" id="bosphorus" data-nav="dark">
+  <div class="wrap grid bos__head">
+    <p class="eyebrow"><span class="n">04</span>{L('The Bosphorus', 'Boğaz')}</p>
+    <h2 class="display bos__title">{L('An evening, not a tour.', 'Bir tur değil, bir akşam.')}</h2>
+    <p class="bos__intro">
+      {L(
+        'We plan the Bosphorus the way a host plans a dinner: when to leave the quay, which shore to hold as the light goes, where to stop the engines and let the city do the rest.',
+        'Boğaz’ı, iyi bir ev sahibinin bir akşam yemeğini planladığı gibi planlıyoruz: iskeleden ne zaman ayrılacağınızı, ışık değişirken hangi kıyıya yakın duracağınızı, motorları nerede susturup gerisini şehre bırakacağınızı.'
+      )}
+    </p>
+  </div>
+  <ol class="wrap evening">
+    {evening.map((e, i) => (
+      <li class={`evening__item evening__item--${i}`}>
+        <div class="frame"><Img src={e.img} alt={e.c} sizes="(max-width: 800px) 100vw, 50vw" position={e.pos} /></div>
+        <p class="evening__cap"><span class="num">{e.time}</span>{e.c}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<!-- 7 · Experiences -->
+<section class="exp wrap" id="experiences" data-nav="light">
+  <div class="grid">
+    <div class="exp__visual">
+      <div class="frame"><Img src={dining} alt={L('A table laid for dinner aboard, at sunset', 'Gün batımında teknede kurulmuş bir akşam yemeği sofrası')} sizes="(max-width: 800px) 100vw, 40vw" position="60% 60%" /></div>
+    </div>
+    <div class="exp__body">
+      <p class="eyebrow"><span class="n">05</span>{L('Experiences', 'Deneyimler')}</p>
+      <h2 class="display exp__title">{L('Built around the occasion.', 'Vesileye göre kurulur.')}</h2>
+      <ul class="occ">
+        {occasions.map((o, i) => (
+          <li class="occ__item">
+            <span class="occ__n num">0{i + 1}</span>
+            <h3 class="occ__t serif">{o.t}</h3>
+            <p class="occ__d">{o.d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · Concierge -->
+<section class="con" id="concierge" data-nav="light">
+  <div class="wrap grid con__head">
+    <p class="eyebrow"><span class="n">06</span>Concierge</p>
+    <p class="lede con__lede">
+      {L(
+        'A charter is a small production, and we run it as one: a single contact, a written plan, and a crew briefed before you arrive.',
+        'Bir yat kiralaması küçük bir prodüksiyondur; biz de onu öyle yönetiyoruz: tek bir muhatap, yazılı bir plan ve siz gelmeden bilgilendirilmiş bir mürettebat.'
+      )}
+    </p>
+  </div>
+  <ol class="wrap steps">
+    {steps.map((s) => (
+      <li>
+        <span class="steps__n serif">{s.n}</span>
+        <h3 class="steps__t">{s.t}</h3>
+        <p class="steps__d">{s.d}</p>
+      </li>
+    ))}
+  </ol>
+  <figure class="con__fig wrap">
+    <div class="frame"><Img src={celebration} alt={L('A floral celebration set-up aboard DenDen İstanbul', 'DenDen İstanbul’da çiçeklerle hazırlanmış bir kutlama düzeni')} sizes="(max-width: 800px) 100vw, 58vw" position="50% 45%" /></div>
+    <figcaption class="caption">{L('A celebration set-up aboard DenDen İstanbul.', 'DenDen İstanbul’da bir kutlama hazırlığı.')}</figcaption>
+  </figure>
+</section>
+
+<!-- 9 · Private request -->
+<section class="req dark" data-nav="dark">
+  <div class="wrap grid">
+    <div class="req__intro">
+      <p class="eyebrow"><span class="n">07</span>{L('Private Charter', 'Özel Kiralama')}</p>
+      <h2 class="display req__title">{L('Plan your evening.', 'Akşamınızı planlayın.')}</h2>
+      <p class="req__note">
+        {L('Three details are enough to begin. We reply with a yacht, a route and a quote — usually the same day.', 'Başlamak için üç bilgi yeterli. Size bir yat, bir rota ve bir fiyatla dönüyoruz.')}
+      </p>
+    </div>
+    <form class="req__form" action={p.charter} method="get">
+      <div class="field">
+        <label for="q-date">{L('Date', 'Tarih')}</label>
+        <input id="q-date" name="date" type="date" required />
+      </div>
+      <div class="field">
+        <label for="q-guests">{L('Guests', 'Misafir')}</label>
+        <select id="q-guests" name="guests">
+          {guestsOpts.map((g) => <option value={g}>{g}</option>)}
+        </select>
+      </div>
+      <div class="field">
+        <label for="q-occ">{L('Occasion', 'Vesile')}</label>
+        <select id="q-occ" name="occasion">
+          {occasions.map((o) => <option value={o.t}>{o.t}</option>)}
+        </select>
+      </div>
+      <div class="req__actions">
+        <button class="btn" type="submit">{L('Continue', 'Devam')}<span aria-hidden="true">→</span></button>
+        <a href={wa(L('Hello Denden, I would like to plan a private charter.', 'Merhaba Denden, özel bir yat kiralaması planlamak istiyorum.'))} class="req__wa" target="_blank" rel="noopener">
+          {L('Or write to us on WhatsApp', 'Ya da WhatsApp’tan yazın')} <span class="num">{contact.phoneDisplay}</span>
+        </a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- 10 · About / closing -->
+<section class="about wrap" id="about" data-nav="light">
+  <div class="grid">
+    <div class="about__img frame"><Img src={fortress} alt={L('DenDen İstanbul on the Bosphorus below a fortress', 'DenDen İstanbul, Boğaz’da bir hisarın önünde')} sizes="(max-width: 800px) 100vw, 42vw" position="40% 50%" /></div>
+    <div class="about__text">
+      <p class="eyebrow"><span class="n">08</span>{L('About', 'Hakkımızda')}</p>
+      <p class="lede">
+        {L(
+          'Denden Denizcilik was founded in Istanbul in 2005 by Tamer Köseoğlu. Two decades on, it keeps a private fleet on the Bosphorus for individual guests and for the city’s hotels, agencies and event houses.',
+          'Denden Denizcilik, 2005’te İstanbul’da Tamer Köseoğlu tarafından kuruldu. Yirmi yıl sonra bugün, bireysel misafirler ile şehrin otelleri, acenteleri ve organizasyon firmaları için Boğaz’da özel bir filo işletiyor.'
+        )}
+      </p>
+      <dl class="about__facts">
+        <div><dt class="eyebrow">{L('Founded', 'Kuruluş')}</dt><dd class="num">2005</dd></div>
+        <div><dt class="eyebrow">{L('Home port', 'Liman')}</dt><dd>{L('Istanbul', 'İstanbul')}</dd></div>
+        <div><dt class="eyebrow">{L('Waters', 'Rota')}</dt><dd>{L('Bosphorus · Princes’ Islands', 'Boğaz · Adalar')}</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="close dark" data-nav="dark">
+  <p class="close__line display wrap">{L('Istanbul,', 'İstanbul,')}<br /><em>{L('from the water.', 'denizden.')}</em></p>
+  <div class="wrap close__cta">
+    <a href={p.charter} class="btn">{L('Private Charter', 'Özel Kiralama')}<span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<style>
+  /* 1 — Hero */
+  .hero {
+    position: relative;
+    min-height: max(640px, 100svh);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    overflow: hidden;
+  }
+  .hero__img { position: absolute; top: 0; right: 0; width: 71vw; height: 84%; }
+  .hero__img .frame { width: 100%; height: 100%; background: var(--ink); }
+  .hero__copy {
+    position: relative;
+    align-self: center;
+    padding-left: var(--gutter);
+    max-width: calc(29vw + 40px);
+    padding-top: 84px;
+  }
+  .hero__copy .eyebrow { margin: 0 0 22px; color: #a39f96; }
+  .hero__line { margin: 0; font-size: clamp(22px, 2vw, 30px); font-weight: 300; line-height: 1.25; max-width: 13ch; }
+  .hero__base {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: end;
+    gap: 32px;
+    padding: 0 var(--gutter) clamp(28px, 4vh, 48px);
+  }
+  .hero__mark { margin: 0; font-weight: inherit; line-height: 0.8; }
+  .hero__mark :global(.wm__name) { font-size: clamp(56px, 10.6vw, 172px); }
+  .hero__meta { display: grid; justify-items: end; gap: 18px; padding-bottom: 6px; }
+
+  /* entrance: one quiet moment, then stillness */
+  .hero__img .frame :global(img) { transform: scale(1.06); opacity: 0; transition: transform 2.6s var(--ease-slow), opacity 1.6s var(--ease); }
+  .hero :global(.wm__name) { opacity: 0; letter-spacing: 0.3em; transition: opacity 1.4s var(--ease) 0.35s, letter-spacing 2.2s var(--ease-slow) 0.35s; }
+  .hero__copy, .hero__meta { opacity: 0; transition: opacity 1.2s var(--ease) 0.9s; }
+  .hero.is-in .hero__img .frame :global(img) { transform: none; opacity: 1; }
+  .hero.is-in :global(.wm__name) { opacity: 1; letter-spacing: 0.16em; }
+  .hero.is-in .hero__copy, .hero.is-in .hero__meta { opacity: 1; }
+
+  /* 2 — Statement */
+  .statement { padding-block: clamp(120px, 16vw, 220px) clamp(100px, 12vw, 170px); }
+  .statement__label { grid-column: 1 / 4; margin: 10px 0 0; }
+  .statement__text { grid-column: 4 / 12; text-indent: 0; }
+  .statement__aside { grid-column: 8 / 11; margin: clamp(40px, 5vw, 72px) 0 0; }
+
+  /* 3 — Editorial */
+  .editorial { padding-bottom: clamp(90px, 11vw, 160px); }
+  .editorial__frame { height: min(92vh, 64vw); }
+  .editorial__cap { justify-content: space-between; margin-top: 18px; }
+
+  /* 4 — Fleet */
+  .fleet { padding-bottom: clamp(100px, 12vw, 180px); }
+  .fleet__head { align-items: start; margin-bottom: clamp(48px, 6vw, 88px); }
+  .fleet__head .eyebrow { grid-column: 1 / 4; margin: 14px 0 0; }
+  .fleet__title { grid-column: 4 / 12; font-size: clamp(38px, 5.4vw, 84px); }
+
+  .flag { align-items: stretch; }
+  .flag__main { align-self: start; }
+  .flag__main { grid-column: 1 / 9; aspect-ratio: 16 / 10; }
+  .flag__side { grid-column: 9 / 13; display: grid; grid-template-rows: auto 1fr; gap: 32px; padding-left: clamp(0px, 1.5vw, 24px); }
+  .flag__inset { width: 62%; aspect-ratio: 4 / 5; }
+  .flag__text { align-self: end; }
+  .flag__text .eyebrow { margin: 0 0 16px; }
+  .flag__name { font-size: clamp(40px, 4.2vw, 64px); margin-bottom: 18px; }
+  .flag__sum { font-size: 15.5px; color: #4b4a45; margin: 18px 0 22px; max-width: 36ch; }
+
+  .specline { margin: 0; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .specline i { width: 3px; height: 3px; background: currentColor; opacity: 0.4; border-radius: 50%; }
+
+  .pair { margin-top: clamp(90px, 11vw, 170px); align-items: start; }
+  .pair__item--0 { grid-column: 2 / 7; }
+  .pair__item--1 { grid-column: 8 / 12; margin-top: clamp(80px, 14vw, 220px); }
+  .pair__img { aspect-ratio: 3 / 2; }
+  .pair__item--1 .pair__img { aspect-ratio: 4 / 3; }
+  .pair__text { padding-top: 26px; }
+  .pair__title { display: flex; align-items: baseline; gap: 18px; margin-bottom: 14px; }
+  .pair__name { font-size: clamp(30px, 2.8vw, 42px); }
+  .pair__sum { font-size: 15px; color: #4b4a45; max-width: 40ch; margin: 14px 0 16px; }
+
+  .index-row {
+    display: grid;
+    grid-template-columns: 60px 1.4fr 0.6fr 0.8fr auto;
+    align-items: baseline;
+    gap: 24px;
+    margin-top: clamp(90px, 10vw, 150px);
+    padding-block: 26px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    transition: padding 0.5s var(--ease-slow);
+  }
+  .index-row:hover { padding-inline: 10px; }
+  .index-row__name { font-size: 28px; letter-spacing: -0.01em; }
+  .index-row__cta { font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; }
+  .fleet__note { margin: 18px 0 0; }
+
+  /* 5 — Figures */
+  .figures { background: #e8e3da; padding-block: clamp(90px, 11vw, 160px) clamp(70px, 8vw, 120px); }
+  .figures__head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 22px; }
+  .figures__head .eyebrow { margin: 0; }
+  .figures__title { font-size: clamp(22px, 2vw, 30px); font-weight: 400; }
+  .figures__row { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; }
+  .figures__row > div { padding: 34px 0 44px; border-left: 1px solid var(--line); padding-left: clamp(16px, 2vw, 32px); }
+  .figures__row > div:first-child { border-left: 0; padding-left: 0; }
+  .figures__row dt { margin-bottom: 18px; color: #6f6b64; }
+  .figures__row dd { margin: 0; font-family: var(--serif); font-weight: 300; font-size: clamp(56px, 8.4vw, 136px); line-height: 0.9; letter-spacing: -0.03em; }
+  .figures__row dd small { font-size: 0.24em; letter-spacing: 0.04em; margin-left: 0.3em; font-family: var(--sans); font-weight: 400; vertical-align: 0.2em; }
+  .figures__img .frame { aspect-ratio: 21 / 9; }
+  .figures__cap { justify-content: space-between; align-items: center; margin-top: 12px; color: #6f6b64; }
+
+  /* 6 — Bosphorus */
+  .bos { padding-block: clamp(110px, 13vw, 190px) clamp(110px, 12vw, 180px); }
+  .bos__head { align-items: start; margin-bottom: clamp(70px, 9vw, 130px); }
+  .bos__head .eyebrow { grid-column: 1 / 4; margin: 16px 0 0; color: #a39f96; }
+  .bos__title { grid-column: 4 / 11; font-size: clamp(44px, 6.4vw, 104px); }
+  .bos__intro { grid-column: 7 / 12; margin: clamp(34px, 4vw, 56px) 0 0; color: var(--mist); font-size: 16.5px; }
+  .evening { list-style: none; margin: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: clamp(56px, 7vw, 110px); }
+  .evening__item .frame { width: 100%; }
+  .evening__item--0 { grid-column: 1 / 8; } .evening__item--0 .frame { aspect-ratio: 3 / 2; }
+  .evening__item--1 { grid-column: 9 / 13; margin-top: clamp(80px, 12vw, 200px); } .evening__item--1 .frame { aspect-ratio: 4 / 5; }
+  .evening__item--2 { grid-column: 3 / 10; } .evening__item--2 .frame { aspect-ratio: 16 / 9; }
+  .evening__item--3 { grid-column: 1 / 4; margin-top: -40px; } .evening__item--3 .frame { aspect-ratio: 3 / 4; }
+  .evening__item--4 { grid-column: 6 / 11; } .evening__item--4 .frame { aspect-ratio: 4 / 5; }
+  .evening__cap { display: flex; gap: 18px; margin: 16px 0 0; font-size: 14px; color: var(--mist); }
+  .evening__cap .num { color: var(--bone); letter-spacing: 0.06em; min-width: 3.2em; }
+
+  /* 7 — Experiences */
+  .exp { padding-block: clamp(110px, 13vw, 190px); }
+  .exp__visual { grid-column: 1 / 6; }
+  .exp__visual .frame { position: sticky; top: 100px; aspect-ratio: 4 / 5; }
+  .exp__body { grid-column: 7 / 13; }
+  .exp__body .eyebrow { margin: 0 0 26px; }
+  .exp__title { font-size: clamp(40px, 4.6vw, 72px); margin-bottom: clamp(48px, 5vw, 80px); }
+  .occ { list-style: none; margin: 0; padding: 0; }
+  .occ__item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    column-gap: 12px;
+    padding: 28px 0 30px;
+    border-top: 1px solid var(--line);
+  }
+  .occ__item:last-child { border-bottom: 1px solid var(--line); }
+  .occ__n { font-size: 12px; letter-spacing: 0.12em; color: var(--stone); padding-top: 12px; transition: color 0.4s; }
+  .occ__item:hover .occ__n { color: var(--signal); }
+  .occ__t { margin: 0 0 8px; font-weight: 300; font-size: clamp(28px, 2.6vw, 38px); letter-spacing: -0.01em; line-height: 1.1; }
+  .occ__d { grid-column: 2; margin: 0; font-size: 15.5px; color: #4b4a45; max-width: 46ch; }
+
+  /* 8 — Concierge */
+  .con { background: #e8e3da; padding-block: clamp(110px, 13vw, 180px); }
+  .con__head { align-items: start; }
+  .con__head .eyebrow { grid-column: 1 / 4; margin: 14px 0 0; }
+  .con__lede { grid-column: 4 / 12; }
+  .steps { list-style: none; margin: clamp(70px, 9vw, 130px) 0 0; display: grid; grid-template-columns: repeat(4, 1fr); column-gap: var(--gap); }
+  .steps li { border-top: 1px solid rgba(16, 19, 17, 0.3); padding-top: 22px; padding-right: 12%; }
+  .steps__n { display: block; font-size: 22px; font-weight: 300; font-style: italic; margin-bottom: 36px; color: #6f6b64; }
+  .steps__t { margin: 0 0 10px; font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
+  .steps__d { margin: 0; font-size: 15px; color: #4b4a45; }
+  .con__fig { margin: clamp(80px, 10vw, 150px) 0 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+  .con__fig .frame { grid-column: 5 / 13; aspect-ratio: 16 / 9; }
+  .con__fig figcaption { grid-column: 5 / 13; margin-top: 12px; color: #6f6b64; }
+
+  /* 9 — Request */
+  .req { padding-block: clamp(110px, 13vw, 180px); }
+  .req__intro { grid-column: 1 / 6; }
+  .req__intro .eyebrow { margin: 0 0 24px; color: #a39f96; }
+  .req__title { font-size: clamp(44px, 5.6vw, 88px); }
+  .req__note { margin: 28px 0 0; color: var(--mist); max-width: 34ch; font-size: 16px; }
+  .req__form { grid-column: 7 / 13; display: grid; gap: 34px; align-content: start; padding-top: 8px; }
+  .req__form .field label { color: #a39f96; }
+  .req__form input[type='date']::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; cursor: pointer; }
+  .req__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-top: 12px; }
+  .req__wa { font-size: 14px; color: var(--mist); border-bottom: 1px solid var(--line-light); padding-bottom: 4px; }
+  .req__wa:hover { color: var(--bone); border-color: var(--bone); }
+  .req__wa .num { margin-left: 6px; color: var(--bone); }
+
+  /* 10 — About + close */
+  .about { padding-block: clamp(110px, 13vw, 190px); }
+  .about__img { grid-column: 1 / 6; aspect-ratio: 4 / 5; }
+  .about__text { grid-column: 7 / 12; align-self: center; }
+  .about__text .eyebrow { margin: 0 0 28px; }
+  .about__text .lede { font-size: clamp(24px, 2.4vw, 36px); }
+  .about__facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 44px; margin: 48px 0 0; }
+  .about__facts dt { margin-bottom: 8px; color: var(--stone); }
+  .about__facts dd { margin: 0; font-family: var(--serif); font-size: 21px; }
+
+  .close { padding-block: clamp(120px, 15vw, 220px) clamp(60px, 7vw, 100px); border-bottom: 1px solid var(--line-light); }
+  .close__line { font-size: clamp(56px, 10vw, 168px); line-height: 0.94; }
+  .close__line em { font-style: italic; font-weight: 300; padding-left: 1.1em; color: var(--mist); }
+  .close__cta { display: flex; justify-content: flex-end; margin-top: clamp(48px, 6vw, 90px); }
+
+  /* ---------- Tablet ---------- */
+  @media (max-width: 1080px) {
+    .flag__main { grid-column: 1 / 13; }
+    .flag__side { grid-column: 1 / 13; grid-template-columns: 1fr 1.4fr; grid-template-rows: auto; padding: 32px 0 0; align-items: end; }
+    .flag__inset { width: 100%; }
+    .steps { grid-template-columns: repeat(2, 1fr); row-gap: 48px; }
+  }
+
+  /* ---------- Phone ---------- */
+  @media (max-width: 800px) {
+    .hero { min-height: 100svh; grid-template-rows: auto auto 1fr; }
+    .hero__img { position: relative; width: 100%; height: 74svh; grid-row: 1; }
+    .hero__base { grid-row: 2; grid-template-columns: 1fr; margin-top: -0.52em; gap: 0; font-size: clamp(56px, 16vw, 110px); padding-bottom: 0; }
+    .hero__mark :global(.wm__name) { font-size: clamp(50px, 14.6vw, 110px); }
+    .hero__meta { display: none; }
+    .hero__copy { grid-row: 3; align-self: start; max-width: none; padding: 26px var(--gutter) 36px; display: flex; justify-content: space-between; gap: 20px; align-items: flex-end; }
+    .hero__copy .eyebrow { margin: 0 0 4px; order: 2; text-align: right; max-width: 12ch; }
+    .hero__line { font-size: 21px; }
+
+    .statement__label, .statement__text, .statement__aside { grid-column: 1 / -1; }
+    .statement__text { margin-top: 28px; }
+    .statement__aside { margin-top: 36px; }
+    .editorial__frame { height: 72svh; }
+    .editorial__cap { flex-direction: column; gap: 4px; }
+
+    .fleet__head .eyebrow, .fleet__title { grid-column: 1 / -1; }
+    .fleet__title { margin-top: 20px; }
+    .flag__main { grid-column: 1 / -1; aspect-ratio: 4 / 5; }
+    .flag__side { grid-column: 1 / -1; grid-template-columns: 1fr; }
+    .flag__inset { display: none; }
+    .pair__item--0, .pair__item--1 { grid-column: 1 / -1; margin-top: 0; }
+    .pair__item--1 { margin-top: 72px; }
+    .pair__item--1 .pair__img { width: 82%; margin-left: auto; }
+    .index-row { grid-template-columns: 1fr auto; row-gap: 6px; }
+    .index-row > .eyebrow { display: none; }
+    .index-row__cta { grid-column: 1 / -1; margin-top: 8px; }
+
+    .figures__head { flex-direction: column; gap: 10px; }
+    .figures__row { grid-template-columns: 1fr 1fr; }
+    .figures__row > div:nth-child(3) { border-left: 0; padding-left: 0; }
+    .figures__row > div { border-top: 1px solid var(--line); }
+    .figures__row > div:nth-child(-n + 2) { border-top: 0; }
+    .figures__img .frame { aspect-ratio: 4 / 3; }
+    .figures__cap { flex-direction: column; align-items: flex-start; gap: 4px; }
+
+    .bos__head .eyebrow, .bos__title, .bos__intro { grid-column: 1 / -1; }
+    .bos__title { margin-top: 22px; }
+    .evening { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 56px; }
+    .evening__item--0 { grid-column: 1 / -1; }
+    .evening__item--1 { grid-column: 2 / -1; margin-top: 0; }
+    .evening__item--2 { grid-column: 1 / -1; margin-inline: calc(var(--gutter) * -1); }
+    .evening__item--2 .evening__cap { padding-inline: var(--gutter); }
+    .evening__item--3 { grid-column: 1 / 5; margin-top: 0; }
+    .evening__item--4 { grid-column: 2 / -1; }
+
+    .exp__visual, .exp__body { grid-column: 1 / -1; }
+    .exp__visual .frame { position: relative; top: 0; aspect-ratio: 4 / 3; margin-bottom: 56px; }
+    .occ__item { grid-template-columns: 40px 1fr; }
+
+    .con__head .eyebrow, .con__lede { grid-column: 1 / -1; }
+    .con__lede { margin-top: 24px; }
+    .steps { grid-template-columns: 1fr; row-gap: 36px; }
+    .steps__n { margin-bottom: 14px; }
+    .con__fig .frame, .con__fig figcaption { grid-column: 1 / -1; }
+    .con__fig { grid-template-columns: 1fr; }
+
+    .req__intro, .req__form { grid-column: 1 / -1; }
+    .req__form { margin-top: 56px; }
+    .req__actions .btn { width: 100%; }
+
+    .about__img, .about__text { grid-column: 1 / -1; }
+    .about__img { aspect-ratio: 4 / 3; margin-bottom: 48px; }
+    .about__facts { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .close__line em { padding-left: 0.6em; }
+    .close__cta { justify-content: stretch; }
+    .close__cta .btn { width: 100%; }
+  }
+</style>
+
+<script>
+  function initHome() {
+    const hero = document.querySelector('.hero');
+    if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-in')));
+
+    const els = [...document.querySelectorAll<HTMLElement>('[data-expand]')];
+    if (!els.length || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach((el) => el.style.setProperty('--p', '1'));
+      return;
+    }
+    let ticking = false;
+    const run = () => {
+      ticking = false;
+      const vh = window.innerHeight;
+      for (const el of els) {
+        const r = el.getBoundingClientRect();
+        // 0 when the section enters from below, 1 once its top reaches ~15% of the viewport
+        const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.85)));
+        el.style.setProperty('--p', p.toFixed(3));
+      }
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(run); } };
+    run();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('astro:before-swap', () => window.removeEventListener('scroll', onScroll), { once: true });
+  }
+  document.addEventListener('astro:page-load', initHome);
+</script>

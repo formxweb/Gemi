@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  lang: 'en' | 'tr';
+  title: string;
+  description: string;
+  alt: string; // path of the same page in the other language
+  navStart?: 'light' | 'dark';
+}
+const { lang, title, description, alt, navStart = 'dark' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const altUrl = new URL(alt, Astro.site);
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#101311" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={lang === 'en' ? 'tr' : 'en'} href={altUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL('/og.jpg', Astro.site)} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_GB' : 'tr_TR'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <ClientRouter fallback="swap" />
+  </head>
+  <body data-nav-start={navStart}>
+    <Nav lang={lang} alt={alt} />
+    <main id="top" transition:animate="fade">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>
+
+<style is:global>
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation-duration: 0.45s; animation-timing-function: cubic-bezier(0.22, 0.61, 0.24, 1); }
+</style>

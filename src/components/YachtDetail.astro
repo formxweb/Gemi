@@ -1,0 +1,262 @@
+---
+import Img from './Img.astro';
+import { bySlug, fleet } from '../data/fleet.js';
+import { paths, wa, contact } from '../data/site.js';
+
+import night from '../assets/img/di-night.jpg';
+import aftdeck from '../assets/img/di-aftdeck.jpg';
+import saloon from '../assets/img/di-saloon.jpg';
+import sunpad from '../assets/img/di-sunpad.jpg';
+import cabin from '../assets/img/di-cabin.jpg';
+import wake from '../assets/img/di-wake.jpg';
+import aerial from '../assets/img/di-profile.jpg';
+
+interface Props { lang: 'en' | 'tr' }
+const { lang } = Astro.props;
+const L = (en: string, tr: string) => (lang === 'en' ? en : tr);
+const p = paths[lang];
+const y = bySlug('denden-istanbul');
+const others = fleet.filter((f) => f.image && f.slug !== y.slug);
+
+const spec = [
+  { k: L('Length', 'Boy'), v: `${y.specs.length} m` },
+  { k: L('Guests', 'Misafir'), v: L(`Up to ${y.specs.guests}`, `${y.specs.guests} kişiye kadar`) },
+  { k: L('Cabins', 'Kabin'), v: L('1 master cabin', '1 ana kabin') },
+  { k: L('Built', 'Yapım'), v: L('2023 · in service since April 2023', '2023 · Nisan 2023’ten beri hizmette') },
+  { k: L('Engines', 'Motor'), v: '2 × 1,000 hp' },
+  { k: L('Waters', 'Rota'), v: L('Bosphorus · Princes’ Islands', 'Boğaz · Adalar') },
+];
+const features = lang === 'en'
+  ? ['Main saloon', 'Covered aft deck lounge', 'Flybridge', 'Foredeck sun pad', 'Air conditioning', 'Catering on request']
+  : ['Ana salon', 'Kapalı kıç güverte salonu', 'Flybridge', 'Baş güvertede güneşlenme alanı', 'Klima', 'İsteğe bağlı ikram'];
+
+const timeline = [
+  { t: '19:00', h: L('Boarding', 'Karşılama'), d: L('Your crew welcomes you at the quay. The table is already laid.', 'Mürettebat sizi iskelede karşılar. Sofra çoktan kurulmuştur.') },
+  { t: '19:30', h: L('North', 'Kuzeye'), d: L('Past the palaces and the yalı shore as the light goes.', 'Işık azalırken sarayların ve yalıların önünden.') },
+  { t: '20:30', h: L('Dinner', 'Akşam yemeği'), d: L('Served on the aft deck, beneath the bridge lights.', 'Kıç güvertede, köprü ışıklarının altında.') },
+  { t: '22:30', h: L('Return', 'Dönüş'), d: L('A slower run home along the Asian side.', 'Anadolu yakası boyunca, daha yavaş bir dönüş.') },
+];
+const guestsOpts = ['2–12', '13–20', '21–40', '41–60'];
+const occ = lang === 'en'
+  ? ['Private Events', 'Corporate Hosting', 'Celebrations', 'Private Dining', 'Custom Charter']
+  : ['Özel Davetler', 'Kurumsal Ağırlama', 'Kutlamalar', 'Özel Yemek', 'Size Özel Rota'];
+---
+
+<section class="yh dark" data-nav="dark">
+  <div class="yh__text">
+    <p class="eyebrow yh__crumb"><a href={`${p.home}#yachts`}>{L('The Fleet', 'Filo')}</a><span>/</span><span class="num">01</span></p>
+    <h1 class="display yh__name">DenDen<br /><em>İstanbul</em></h1>
+    <p class="specline num">{y.specs.length} m<i></i>{y.specs.guests} {L('guests', 'misafir')}<i></i>{y.specs.built}</p>
+    <div class="yh__actions">
+      <a href="#request" class="link">{L('Charter this yacht', 'Bu yatı kiralayın')}<span class="arrow" aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+  <div class="yh__img frame">
+    <Img src={night} alt={L('DenDen İstanbul lit at dusk, alongside', 'Akşam ışıklarıyla rıhtımda DenDen İstanbul')} eager sizes="(max-width: 800px) 100vw, 60vw" position="42% 50%" />
+  </div>
+</section>
+
+<section class="yd wrap" data-nav="light">
+  <div class="grid yd__intro">
+    <p class="eyebrow yd__label"><span class="n">01</span>{L('The yacht', 'Yat')}</p>
+    <p class="lede yd__lede">
+      {L(
+        'DenDen İstanbul joined the fleet on 29 April 2023. She was planned for hosting: a main saloon that opens onto a covered aft deck, a flybridge for the view, and a foredeck to lie out on as the city goes by.',
+        'DenDen İstanbul, 29 Nisan 2023’te filoya katıldı. Ağırlamak için tasarlandı: kapalı kıç güverteye açılan bir ana salon, manzara için bir flybridge ve şehir akıp giderken uzanabileceğiniz bir baş güverte.'
+      )}
+    </p>
+  </div>
+
+  <div class="mosaic">
+    <figure class="m m--1"><div class="frame"><Img src={aftdeck} alt={L('Covered aft deck lounge', 'Kapalı kıç güverte salonu')} sizes="(max-width: 800px) 100vw, 64vw" /></div><figcaption class="caption">{L('Aft deck', 'Kıç güverte')}</figcaption></figure>
+    <figure class="m m--2"><div class="frame"><Img src={saloon} alt={L('The main saloon', 'Ana salon')} sizes="(max-width: 800px) 100vw, 30vw" position="38% 50%" /></div><figcaption class="caption">{L('Main saloon', 'Ana salon')}</figcaption></figure>
+    <figure class="m m--3"><div class="frame"><Img src={sunpad} alt={L('Foredeck sun pad', 'Baş güvertede güneşlenme alanı')} sizes="(max-width: 800px) 100vw, 36vw" position="50% 60%" /></div><figcaption class="caption">{L('Foredeck', 'Baş güverte')}</figcaption></figure>
+    <figure class="m m--4"><div class="frame"><Img src={cabin} alt={L('The master cabin', 'Ana kabin')} sizes="(max-width: 800px) 100vw, 40vw" position="60% 50%" /></div><figcaption class="caption">{L('Master cabin', 'Ana kabin')}</figcaption></figure>
+  </div>
+</section>
+
+<section class="ys" id="specification" data-nav="light">
+  <div class="wrap grid">
+    <div class="ys__head">
+      <p class="eyebrow"><span class="n">02</span>{L('Specification', 'Teknik bilgiler')}</p>
+      <h2 class="display ys__title">{L('At a glance.', 'Bir bakışta.')}</h2>
+      <p class="small ys__note">{L('Specifications are indicative and confirmed with every proposal.', 'Teknik bilgiler bilgilendirme amaçlıdır; her teklifte teyit edilir.')}</p>
+    </div>
+    <div class="ys__body">
+      <dl class="ys__list">
+        {spec.map((s) => (<div><dt class="eyebrow">{s.k}</dt><dd class="num">{s.v}</dd></div>))}
+      </dl>
+      <div class="ys__feat">
+        <p class="eyebrow">{L('Features', 'Özellikler')}</p>
+        <ul>{features.map((f) => <li>{f}</li>)}</ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ye dark" data-nav="dark">
+  <div class="wrap grid">
+    <div class="ye__img frame"><Img src={wake} alt={L('The wake of DenDen İstanbul on the Bosphorus', 'DenDen İstanbul’un Boğaz’daki dümen suyu')} sizes="(max-width: 800px) 100vw, 50vw" position="60% 50%" /></div>
+    <div class="ye__body">
+      <p class="eyebrow"><span class="n">03</span>{L('On board', 'Teknede')}</p>
+      <h2 class="display ye__title">{L('One evening aboard.', 'Teknede bir akşam.')}</h2>
+      <ol class="tl">
+        {timeline.map((s) => (
+          <li><span class="num tl__t">{s.t}</span><div><h3 class="tl__h serif">{s.h}</h3><p class="tl__d">{s.d}</p></div></li>
+        ))}
+      </ol>
+      <p class="small">{L('Every charter is planned to order. This is one of many.', 'Her kiralama size özel planlanır. Bu, olasılıklardan yalnızca biri.')}</p>
+    </div>
+  </div>
+</section>
+
+<section class="yr wrap" id="request" data-nav="light">
+  <div class="grid">
+    <div class="yr__img frame"><Img src={aerial} alt={L('DenDen İstanbul under way, seen from above', 'DenDen İstanbul seyir halinde, yukarıdan')} sizes="(max-width: 800px) 100vw, 40vw" position="44% 50%" /></div>
+    <div class="yr__body">
+      <p class="eyebrow"><span class="n">04</span>{L('Private Charter', 'Özel Kiralama')}</p>
+      <h2 class="display yr__title">{L('Charter DenDen İstanbul.', 'DenDen İstanbul’u kiralayın.')}</h2>
+      <form class="yr__form" action={p.charter} method="get">
+        <input type="hidden" name="yacht" value={y.slug} />
+        <div class="field"><label for="y-date">{L('Date', 'Tarih')}</label><input id="y-date" type="date" name="date" required /></div>
+        <div class="field"><label for="y-guests">{L('Guests', 'Misafir')}</label><select id="y-guests" name="guests">{guestsOpts.map((g) => <option>{g}</option>)}</select></div>
+        <div class="field yr__wide"><label for="y-occ">{L('Occasion', 'Vesile')}</label><select id="y-occ" name="occasion">{occ.map((o) => <option>{o}</option>)}</select></div>
+        <div class="yr__actions">
+          <button class="btn solid" type="submit">{L('Continue', 'Devam')}<span aria-hidden="true">→</span></button>
+          <a class="yr__wa" href={wa(L('Hello Denden, I would like to charter DenDen İstanbul.', 'Merhaba Denden, DenDen İstanbul’u kiralamak istiyorum.'))} target="_blank" rel="noopener">WhatsApp <span class="num">{contact.phoneDisplay}</span></a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="yn wrap" data-nav="light">
+  <p class="eyebrow">{L('The rest of the fleet', 'Filonun geri kalanı')}</p>
+  <div class="yn__row">
+    {others.map((o) => (
+      <a href={`${p.charter}?yacht=${o.slug}`} class="yn__item">
+        <div class="frame zoom"><Img src={o.image} alt={o.name} sizes="(max-width: 800px) 50vw, 25vw" /></div>
+        <span class="serif yn__name">{o.name}</span>
+        <span class="num small">{o.specs.length} m · {o.specs.guests} {L('guests', 'misafir')}</span>
+      </a>
+    ))}
+    <a href={`${p.home}#yachts`} class="yn__all link">{L('View the fleet', 'Filoyu görün')}<span class="arrow" aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<style>
+  .yh { position: relative; display: grid; grid-template-columns: 5fr 7fr; min-height: max(620px, 100svh); }
+  .yh__text { display: flex; flex-direction: column; justify-content: flex-end; padding: 120px var(--gutter) clamp(40px, 6vh, 72px); }
+  .yh__crumb { display: flex; gap: 12px; color: #a39f96; margin: 0 0 auto; padding-top: 24px; }
+  .yh__crumb a:hover { color: var(--bone); }
+  .yh__name { font-size: clamp(56px, 7.4vw, 124px); margin: 0 0 32px; }
+  .yh__name em { font-style: italic; color: var(--mist); }
+  .yh__actions { margin-top: 40px; }
+  .yh__img { height: 100%; min-height: 100%; }
+  .yh__img :global(img) { transform: scale(1.04); transition: transform 2.4s var(--ease-slow); }
+  .yh.is-in .yh__img :global(img) { transform: none; }
+
+  .specline { margin: 0; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .specline i { width: 3px; height: 3px; background: currentColor; opacity: 0.4; border-radius: 50%; }
+
+  .yd { padding-block: clamp(110px, 13vw, 190px) clamp(90px, 10vw, 150px); }
+  .yd__label { grid-column: 1 / 4; margin: 12px 0 0; }
+  .yd__lede { grid-column: 4 / 12; }
+  .mosaic {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: clamp(40px, 5vw, 80px);
+    margin-top: clamp(80px, 10vw, 150px);
+  }
+  .m { margin: 0; }
+  .m .caption { margin-top: 12px; }
+  .m--1 { grid-column: 1 / 9; } .m--1 .frame { aspect-ratio: 16 / 9; }
+  .m--2 { grid-column: 9 / 13; align-self: end; } .m--2 .frame { aspect-ratio: 4 / 5; }
+  .m--3 { grid-column: 2 / 7; } .m--3 .frame { aspect-ratio: 4 / 3; }
+  .m--4 { grid-column: 8 / 13; margin-top: clamp(60px, 9vw, 140px); } .m--4 .frame { aspect-ratio: 3 / 2; }
+
+  .ys { background: #e8e3da; padding-block: clamp(100px, 12vw, 170px); }
+  .ys__head { grid-column: 1 / 5; }
+  .ys__head .eyebrow { margin: 0 0 24px; }
+  .ys__title { font-size: clamp(40px, 4.4vw, 68px); }
+  .ys__note { margin: 28px 0 0; max-width: 28ch; color: #6f6b64; }
+  .ys__body { grid-column: 6 / 13; }
+  .ys__list { margin: 0; }
+  .ys__list > div { display: grid; grid-template-columns: 180px 1fr; align-items: baseline; gap: 20px; padding: 20px 0; border-top: 1px solid var(--line); }
+  .ys__list > div:last-child { border-bottom: 1px solid var(--line); }
+  .ys__list dt { color: #6f6b64; }
+  .ys__list dd { margin: 0; font-family: var(--serif); font-size: clamp(22px, 2vw, 30px); font-weight: 300; letter-spacing: -0.01em; }
+  .ys__feat { margin-top: 48px; display: grid; grid-template-columns: 180px 1fr; gap: 20px; }
+  .ys__feat .eyebrow { margin: 4px 0 0; color: #6f6b64; }
+  .ys__feat ul { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 32px; font-size: 15.5px; }
+  .ys__feat li { padding: 5px 0; break-inside: avoid; }
+
+  .ye { padding-block: clamp(110px, 13vw, 190px); }
+  .ye__img { grid-column: 1 / 6; aspect-ratio: 3 / 4; }
+  .ye__body { grid-column: 7 / 13; align-self: center; }
+  .ye__body .eyebrow { margin: 0 0 24px; color: #a39f96; }
+  .ye__title { font-size: clamp(40px, 4.8vw, 76px); margin-bottom: clamp(40px, 5vw, 64px); }
+  .tl { list-style: none; margin: 0 0 36px; padding: 0; }
+  .tl li { display: grid; grid-template-columns: 90px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line-light); }
+  .tl li:last-child { border-bottom: 1px solid var(--line-light); }
+  .tl__t { font-size: 13px; letter-spacing: 0.08em; color: var(--mist); padding-top: 6px; }
+  .tl__h { margin: 0 0 4px; font-weight: 300; font-size: 28px; }
+  .tl__d { margin: 0; color: var(--mist); font-size: 15px; }
+
+  .yr { padding-block: clamp(110px, 13vw, 180px) clamp(80px, 9vw, 130px); }
+  .yr__img { grid-column: 1 / 6; aspect-ratio: 4 / 5; }
+  .yr__body { grid-column: 7 / 13; align-self: center; }
+  .yr__body .eyebrow { margin: 0 0 24px; }
+  .yr__title { font-size: clamp(38px, 4.2vw, 64px); margin-bottom: 48px; }
+  .yr__form { display: grid; grid-template-columns: 1fr 1fr; gap: 34px 28px; }
+  .yr__wide, .yr__actions { grid-column: 1 / -1; }
+  .yr__actions { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; }
+  .yr__wa { font-size: 14px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  .yr__wa .num { color: var(--stone); margin-left: 6px; }
+
+  .yn { padding-block: clamp(60px, 7vw, 100px) clamp(100px, 12vw, 160px); border-top: 1px solid var(--line); }
+  .yn > .eyebrow { margin: 0 0 32px; }
+  .yn__row { display: grid; grid-template-columns: 1fr 1fr 2fr; gap: var(--gap); align-items: end; }
+  .yn__item { display: grid; gap: 8px; }
+  .yn__item .frame { aspect-ratio: 3 / 2; margin-bottom: 8px; }
+  .yn__name { font-size: 24px; }
+  .yn__all { justify-self: end; }
+
+  @media (max-width: 800px) {
+    .yh { grid-template-columns: 1fr; }
+    .yh__img { grid-row: 1; height: 62svh; }
+    .yh__text { padding: 36px var(--gutter) 48px; }
+    .yh__crumb { position: absolute; top: 84px; left: var(--gutter); color: var(--bone); }
+    .yh__name { font-size: 64px; }
+    .yh__actions { margin-top: 28px; }
+    .yd__label, .yd__lede { grid-column: 1 / -1; }
+    .yd__lede { margin-top: 24px; }
+    .mosaic { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .m--1 { grid-column: 1 / -1; margin-inline: calc(var(--gutter) * -1); }
+    .m--1 .caption { padding-inline: var(--gutter); }
+    .m--2 { grid-column: 2 / -1; }
+    .m--3 { grid-column: 1 / -1; }
+    .m--4 { grid-column: 1 / 6; margin-top: 0; }
+    .ys__head, .ys__body { grid-column: 1 / -1; }
+    .ys__body { margin-top: 48px; }
+    .ys__list > div, .ys__feat { grid-template-columns: 1fr; gap: 6px; }
+    .ys__feat ul { columns: 1; }
+    .ye__img, .ye__body { grid-column: 1 / -1; }
+    .ye__img { aspect-ratio: 4 / 3; margin-bottom: 56px; }
+    .tl li { grid-template-columns: 64px 1fr; }
+    .yr__img, .yr__body { grid-column: 1 / -1; }
+    .yr__img { aspect-ratio: 4 / 3; margin-bottom: 48px; }
+    .yr__form { grid-template-columns: 1fr; }
+    .yr__actions .btn { width: 100%; }
+    .yn__row { grid-template-columns: 1fr 1fr; }
+    .yn__all { grid-column: 1 / -1; justify-self: start; margin-top: 24px; }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const h = document.querySelector('.yh');
+    if (h) requestAnimationFrame(() => requestAnimationFrame(() => h.classList.add('is-in')));
+  });
+</script>

@@ -1,0 +1,73 @@
+---
+import Wordmark from './Wordmark.astro';
+import { ui, contact, wa, paths } from '../data/site.js';
+interface Props { lang: 'en' | 'tr' }
+const { lang } = Astro.props;
+const t = ui[lang];
+const year = new Date().getFullYear();
+---
+<footer class="foot dark" data-nav="dark">
+  <div class="foot__top wrap">
+    <a href={paths[lang].home} class="foot__mark" aria-label="Denden Luxury Yachts"><Wordmark /></a>
+    <p class="foot__note serif">{t.footer.note}</p>
+  </div>
+  <div class="foot__grid wrap">
+    <div>
+      <p class="eyebrow">{t.footer.visit}</p>
+      <address>{contact.address.map((l) => <span>{l}</span>)}</address>
+    </div>
+    <div>
+      <p class="eyebrow">{t.footer.reach}</p>
+      <a href={wa()} target="_blank" rel="noopener">{t.whatsapp}</a>
+      <a href={contact.phoneHref} class="num">{contact.phoneDisplay}</a>
+    </div>
+    <div>
+      <p class="eyebrow">{t.footer.follow}</p>
+      <a href={contact.instagram} target="_blank" rel="noopener">Instagram {contact.instagramHandle}</a>
+    </div>
+    <div class="foot__coord num">41°02′ N<br />29°00′ E</div>
+  </div>
+  <div class="foot__base wrap">
+    <span>© {year} {contact.company}. {t.footer.rights}</span>
+    <a href="#top" class="foot__up">↑</a>
+  </div>
+</footer>
+
+<style>
+  .foot { padding-top: clamp(72px, 9vw, 128px); }
+  .foot__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--line-light);
+  }
+  .foot__note { margin: 0; font-size: clamp(20px, 1.8vw, 26px); font-weight: 300; max-width: 22ch; text-align: right; color: var(--mist); }
+  .foot__grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr auto;
+    gap: 40px;
+    padding-block: 48px 64px;
+    font-size: 14.5px;
+  }
+  .foot__grid .eyebrow { margin: 0 0 16px; color: #8d897f; }
+  .foot__grid address { font-style: normal; display: grid; }
+  .foot__grid a { display: block; width: fit-content; opacity: 0.9; }
+  .foot__grid a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .foot__coord { font-size: 12px; letter-spacing: 0.12em; color: #8d897f; text-align: right; }
+  .foot__base {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 22px calc(22px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line-light);
+    font-size: 12px;
+    color: #8d897f;
+  }
+  @media (max-width: 800px) {
+    .foot__top { flex-direction: column; align-items: flex-start; }
+    .foot__note { text-align: left; }
+    .foot__grid { grid-template-columns: 1fr 1fr; row-gap: 36px; }
+    .foot__coord { text-align: left; }
+  }
+</style>

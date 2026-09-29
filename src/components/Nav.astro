@@ -1,0 +1,242 @@
+---
+import Wordmark from './Wordmark.astro';
+import { ui, paths, wa, contact } from '../data/site.js';
+
+interface Props { lang: 'en' | 'tr'; alt: string }
+const { lang, alt } = Astro.props;
+const t = ui[lang];
+const p = paths[lang];
+const home = p.home;
+const items = [
+  { label: t.nav.yachts, href: `${home}#yachts` },
+  { label: t.nav.experiences, href: `${home}#experiences` },
+  { label: t.nav.concierge, href: `${home}#concierge` },
+  { label: t.nav.bosphorus, href: `${home}#bosphorus` },
+  { label: t.nav.about, href: `${home}#about` },
+  { label: t.nav.contact, href: p.charter },
+];
+const waText = lang === 'en' ? 'Hello Denden, I would like to plan a private charter.' : 'Merhaba Denden, özel bir yat kiralaması planlamak istiyorum.';
+---
+<header class="nav" data-theme="dark">
+  <div class="nav__bar">
+    <a href={home} class="nav__brand" aria-label="Denden Luxury Yachts — home"><Wordmark /></a>
+
+    <nav class="nav__links" aria-label="Primary">
+      {items.map((i) => <a href={i.href} class="nav__link">{i.label}</a>)}
+    </nav>
+
+    <div class="nav__end">
+      <div class="nav__lang" aria-label="Language">
+        <a href={lang === 'tr' ? alt : undefined} class:list={[{ on: lang === 'en' }]} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+        <span aria-hidden="true">/</span>
+        <a href={lang === 'en' ? alt : undefined} class:list={[{ on: lang === 'tr' }]} hreflang="tr" lang="tr" aria-current={lang === 'tr' ? 'true' : undefined}>TR</a>
+      </div>
+      <a href={p.charter} class="nav__cta"><span class="dot" aria-hidden="true"></span>{t.cta}</a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="sheet">
+        <span class="nav__toggle-label">{t.menu}</span>
+        <span class="nav__burger" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="sheet" id="sheet" hidden>
+    <nav class="sheet__links" aria-label="Mobile">
+      {items.map((i, n) => (
+        <a href={i.href} class="sheet__link"><span class="num">0{n + 1}</span>{i.label}</a>
+      ))}
+    </nav>
+    <div class="sheet__foot">
+      <a href={p.charter} class="btn solid-light">{t.cta}<span aria-hidden="true">→</span></a>
+      <div class="sheet__meta">
+        <a href={wa(waText)} target="_blank" rel="noopener">{t.whatsapp} · {contact.phoneDisplay}</a>
+        <div class="nav__lang">
+          <a href={lang === 'tr' ? alt : undefined} class:list={[{ on: lang === 'en' }]} hreflang="en">EN</a>
+          <span aria-hidden="true">/</span>
+          <a href={lang === 'en' ? alt : undefined} class:list={[{ on: lang === 'tr' }]} hreflang="tr">TR</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    color: var(--bone);
+    transition: color 0.5s var(--ease), transform 0.6s var(--ease-slow);
+  }
+  .nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease);
+    pointer-events: none;
+  }
+  .nav[data-theme='light'] { color: var(--ink); }
+  .nav[data-solid='true']::before { opacity: 1; }
+  .nav[data-solid='true'][data-theme='dark']::before { background: var(--ink); border-color: var(--line-light); }
+  .nav[data-hidden='true'] { transform: translateY(-100%); }
+
+  .nav__bar {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 32px;
+    height: 84px;
+    padding-inline: var(--gutter);
+    transition: height 0.5s var(--ease);
+  }
+  .nav[data-solid='true'] .nav__bar { height: 68px; }
+
+  .nav__links { display: flex; gap: clamp(18px, 2.3vw, 38px); justify-content: center; }
+  .nav__link {
+    position: relative;
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    font-weight: 450;
+    padding-block: 6px;
+    opacity: 0.86;
+    transition: opacity 0.3s var(--ease);
+  }
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-slow);
+  }
+  .nav__link:hover { opacity: 1; }
+  .nav__link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  .nav__end { display: flex; align-items: center; gap: 28px; }
+  .nav__lang { display: flex; gap: 6px; font-size: 11.5px; letter-spacing: 0.14em; }
+  .nav__lang a { opacity: 0.45; transition: opacity 0.3s; }
+  .nav__lang a[href]:hover { opacity: 1; }
+  .nav__lang a.on { opacity: 1; }
+  .nav__lang span { opacity: 0.3; }
+
+  .nav__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 12px 0 11px;
+    border-bottom: 1px solid currentColor;
+  }
+  .nav__cta .dot { width: 5px; height: 5px; background: var(--signal); }
+
+  .nav__toggle {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: 0;
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 11.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .nav__burger { display: grid; gap: 6px; width: 22px; }
+  .nav__burger i { display: block; height: 1px; background: currentColor; transition: transform 0.45s var(--ease-slow); }
+  .nav[data-open='true'] .nav__burger i:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .nav[data-open='true'] .nav__burger i:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+
+  .sheet {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--ink);
+    color: var(--bone);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 108px var(--gutter) calc(28px + env(safe-area-inset-bottom));
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.7s var(--ease-slow);
+  }
+  .nav[data-open='true'] .sheet { clip-path: inset(0 0 0 0); }
+  .sheet__links { display: grid; gap: 4px; }
+  .sheet__link {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(34px, 9.5vw, 56px);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+  }
+  .sheet__link .num { font-family: var(--sans); font-size: 11px; letter-spacing: 0.16em; opacity: 0.45; transform: translateY(-0.9em); }
+  .sheet__foot { display: grid; gap: 24px; }
+  .sheet__foot .btn { width: 100%; }
+  .solid-light { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+  .sheet__meta { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #a7a298; }
+
+  @media (max-width: 1080px) {
+    .nav__links, .nav__end > .nav__lang, .nav__cta { display: none; }
+    .nav__toggle { display: inline-flex; }
+    .nav__bar { grid-template-columns: 1fr auto; height: 72px; }
+    .nav[data-solid='true'] .nav__bar { height: 64px; }
+    .nav[data-open='true'] { color: var(--bone); }
+    .nav[data-open='true']::before { opacity: 0; }
+  }
+</style>
+
+<script>
+  function initNav() {
+    const nav = document.querySelector<HTMLElement>('.nav');
+    if (!nav) return;
+    const toggle = nav.querySelector<HTMLButtonElement>('.nav__toggle')!;
+    const sheet = nav.querySelector<HTMLElement>('.sheet')!;
+    const label = nav.querySelector<HTMLElement>('.nav__toggle-label')!;
+    const openLabel = label.textContent;
+    const lang = document.documentElement.lang;
+    const closeLabel = lang === 'tr' ? 'Kapat' : 'Close';
+
+    const setOpen = (open: boolean) => {
+      nav.dataset.open = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+      label.textContent = open ? closeLabel : openLabel;
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+      if (open) sheet.hidden = false;
+      else setTimeout(() => { if (nav.dataset.open !== 'true') sheet.hidden = true; }, 700);
+    };
+    setOpen(false);
+    toggle.onclick = () => setOpen(nav.dataset.open !== 'true');
+    sheet.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+
+    // Theme follows whatever section sits under the bar.
+    const sections = [...document.querySelectorAll<HTMLElement>('[data-nav]')];
+    let lastY = window.scrollY;
+    const update = () => {
+      const y = window.scrollY;
+      const probe = 40;
+      let theme = document.body.dataset.navStart || 'dark';
+      for (const s of sections) {
+        const r = s.getBoundingClientRect();
+        if (r.top <= probe && r.bottom > probe) { theme = s.dataset.nav!; break; }
+      }
+      nav.dataset.theme = theme;
+      nav.dataset.solid = String(y > 80);
+      if (nav.dataset.open !== 'true') nav.dataset.hidden = String(y > 480 && y > lastY + 4);
+      if (y < lastY - 4 || y < 480) nav.dataset.hidden = 'false';
+      lastY = y;
+    };
+    update();
+    window.onscroll = () => requestAnimationFrame(update);
+  }
+  document.addEventListener('astro:page-load', initNav);
+</script>
