@@ -21,7 +21,10 @@ npm run dev        # http://localhost:4321
 npm run build      # çıktı: dist/
 npm run preview
 npm run check:site # build sonrası: linkler, anchor'lar, konsol hataları, kırık görseller, WhatsApp formu
+npm run build:single # tüm siteyi tek HTML dosyasına paketler: dist-single/Denden-Luxury-Yachts.html
 ```
+
+`build:single` çıktısı sunucu gerektirmez: dosyaya çift tıklayınca açılır, e-posta ya da WhatsApp ile gönderilebilir.
 
 Yayın: `dist/` klasörü Vercel, Netlify, Cloudflare Pages veya herhangi bir statik sunucuya olduğu gibi yüklenebilir.
 Yayın adresi belli olunca `astro.config.mjs` içindeki `site` değerini güncelleyin (canonical / OG etiketleri için).
